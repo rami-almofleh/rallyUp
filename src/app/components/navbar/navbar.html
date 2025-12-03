@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <div class="navbar-container">
+    <div class="logo-container">
+      <a routerLink="/">
+        <span class="app-title">RallyUp</span>
+      </a>
+    </div>
+
+    <div class="actions-container">
+      <!-- Sprachauswahl -->
+      <button color="accent" mat-icon-button [matMenuTriggerFor]="languageMenu" aria-label="Sprache auswählen">
+        <mat-icon>language</mat-icon>
+      </button>
+      <mat-menu #languageMenu="matMenu">
+        <button mat-menu-item (click)="switchLanguage('de')" [disabled]="currentLang === 'de'">
+          <span>Deutsch</span>
+        </button>
+        <button mat-menu-item (click)="switchLanguage('en')" [disabled]="currentLang === 'en'">
+          <span>English</span>
+        </button>
+      </mat-menu>
+
+      <!-- Hilfe-Button -->
+      <button color="accent" mat-icon-button (click)="openHelpDialog()" aria-label="Hilfe">
+        <mat-icon>help_outline</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>

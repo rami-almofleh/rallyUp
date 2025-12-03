@@ -1,0 +1,39 @@
+{
+  "COMMON": {
+    "CLOSE": "Close",
+    "DOWNLOAD": "Download"
+  },
+  "HELP": {
+    "TITLE": "App Help",
+    "HOW_TO_USE": "How to use this app?",
+    "CREATE_LIST_DESC": "Create a new list with a title, add participants and specify what should be brought.",
+    "SHARE_LIST_DESC": "Share your list with friends via the share button and copy the link or download the QR code.",
+    "EDIT_LIST_DESC": "As the creator, you can edit or delete the list at any time.",
+    "TIPS": "Tips",
+    "SECURITY_TIP": "Please note: Only share the link using the share button, otherwise others can change your data!",
+    "PREVIEW_TIP": "Use the preview function to see how your list appears to others."
+  },
+  "NAVBAR": {
+    "APP_TITLE": "Who brings what"
+  },
+  "SHARE": {
+    "TITLE": "Share with others!",
+    "COPY_SHARE_URL": "You can share this URL with others!",
+    "DOWNLOAD_QRCODE": "Or download this QR code and share it with others. When they scan it, they will be directed to your list immediately"
+  },
+  "HOME": {
+    "EVENT_TITLE": "Event title",
+    "EVENT_TITLE_PLACEHOLDER": "Type your event title",
+    "EVENT_MODERATOR": "Event moderator",
+    "EVENT_MODERATOR_PLACEHOLDER": "Type your event moderator",
+    "EVENT_DUE_DATE": "Due date",
+    "GUESTS": "Invited Persons",
+    "GUEST_NAME": "Name",
+    "GUEST_NAME_PLACEHOLDER": "Name of the person",
+    "GUEST_CONTRIBUTION": "Contribution",
+    "GUEST_CONTRIBUTION_PLACEHOLDER": "What should they bring?",
+    "ADD_GUEST": "Add person",
+    "REMOVE_GUEST": "Remove person",
+    "NO_GUESTS": "No persons invited yet"
+  }
+}

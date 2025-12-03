@@ -1,0 +1,18 @@
+{
+  "COMMON": {
+    "CLOSE": "Schließen"
+  },
+  "HELP": {
+    "TITLE": "Hilfe zur App",
+    "HOW_TO_USE": "Wie benutzt man diese App?",
+    "CREATE_LIST_DESC": "Erstellen Sie eine neue Liste mit einem Titel, fügen Sie Teilnehmer hinzu und legen Sie fest, was mitgebracht werden soll.",
+    "SHARE_LIST_DESC": "Teilen Sie Ihre Liste mit Freunden über den Teilen-Button und kopieren Sie den Link oder laden Sie den QR-Code herunter.",
+    "EDIT_LIST_DESC": "Als Ersteller können Sie die Liste jederzeit bearbeiten oder löschen.",
+    "TIPS": "Tipps",
+    "SECURITY_TIP": "Bitte beachten Sie: Teilen Sie den Link nur über den Teilen-Button, sonst können andere Ihre Daten ändern!",
+    "PREVIEW_TIP": "Mit der Vorschau-Funktion können Sie sehen, wie Ihre Liste für andere aussieht."
+  },
+  "NAVBAR": {
+    "APP_TITLE": "Wer bringt was mit"
+  }
+}

@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>{{ 'SHARE.TITLE' | translate }}</h2>
+<mat-dialog-content>
+  <p class="mb-0">{{ 'SHARE.COPY_SHARE_URL' | translate }}</p>
+  <div class="d-flex align-items-center gap-2 mb-5">
+    {{ window.location.href }}
+
+    <button mat-icon-button (click)="copyLink()" color="primary">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </div>
+
+  <div>
+    <p>{{ 'SHARE.DOWNLOAD_QRCODE' | translate }}</p>
+    <div class="mb-3">QRCODE</div>
+
+    <button mat-raised-button (click)="downloadQRCode()" color="primary">
+      <mat-icon>download</mat-icon>
+      {{ 'COMMON.DOWNLOAD' | translate }}
+    </button>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{ 'COMMON.CLOSE' | translate }}</button>
+</mat-dialog-actions>

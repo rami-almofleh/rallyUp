@@ -1,0 +1,89 @@
+<div class="d-flex justify-content-end gap-3 mb-4">
+
+  <!-- Löschen Button -->
+  <button mat-raised-button color="warn" (click)="markAsDeleted()">
+    <mat-icon>delete</mat-icon>
+    Löschen
+  </button>
+
+  <!-- Teilen Button mit Menü -->
+  <button mat-raised-button (click)="openShareDialog()">
+    <mat-icon>share</mat-icon>
+    Teilen
+  </button>
+
+  <!-- Preview Button -->
+  <button mat-raised-button color="primary" (click)="openPreview()">
+    <mat-icon>preview</mat-icon>
+    Preview
+  </button>
+
+  <!-- Speichern Button (neu) -->
+  <button mat-raised-button color="primary" (click)="saveForm()">
+    <mat-icon>save</mat-icon>
+    Speichern
+  </button>
+</div>
+
+<form [formGroup]="form">
+  <div>
+    <mat-form-field>
+      <mat-label>{{ 'HOME.EVENT_TITLE' | translate }}</mat-label>
+      <input matInput formControlName="title" [placeholder]="'HOME.EVENT_TITLE_PLACEHOLDER' | translate">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>{{ 'HOME.EVENT_MODERATOR' | translate }}</mat-label>
+      <input matInput formControlName="moderator" [placeholder]="'HOME.EVENT_MODERATOR_PLACEHOLDER' | translate">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>{{ 'HOME.EVENT_DUE_DATE' | translate }}</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dueDate" [min]="minDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+
+  <!-- Gästeliste Sektion -->
+  <div class="guest-list-section mt-4">
+    <h3>{{ 'HOME.GUESTS' | translate }}</h3>
+
+    <div formArrayName="guests">
+      @for (guestControl of guests.controls; track guestControl; let i = $index) {
+        <div [formGroupName]="i" class="guest-row d-flex gap-3 align-items-center mb-1">
+          <mat-form-field class="flex-grow-1">
+            <mat-label>{{ 'HOME.GUEST_NAME' | translate }}</mat-label>
+            <input matInput formControlName="name" [placeholder]="'HOME.GUEST_NAME_PLACEHOLDER' | translate">
+          </mat-form-field>
+
+          <mat-form-field class="flex-grow-1">
+            <mat-label>{{ 'HOME.GUEST_CONTRIBUTION' | translate }}</mat-label>
+            <input matInput formControlName="contribution" [placeholder]="'HOME.GUEST_CONTRIBUTION_PLACEHOLDER' | translate">
+          </mat-form-field>
+
+          <button mat-icon-button color="warn" type="button" (click)="removeGuest(i)"
+                  [attr.aria-label]="'HOME.REMOVE_GUEST' | translate">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      } @empty {
+        <div class="text-center text-muted py-3">
+          {{ 'HOME.NO_GUESTS' | translate }}
+        </div>
+      }
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+      <button mat-icon-button color="primary" type="button" (click)="addGuest()"
+              [attr.aria-label]="'HOME.ADD_GUEST' | translate">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+</form>

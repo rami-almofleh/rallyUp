@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+// Entfernen Sie das vorgefertigte Theme
+@use '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+// Basis-Styling
+@include mat.core();
+
+// In Angular Material 20 werden die Paletten direkt verwendet
+$primary-palette: mat.$blue-palette;
+$accent-palette: mat.$orange-palette;
+$warn-palette: mat.$red-palette;
+
+// Theme erstellen
+$theme: (
+        color: (
+                primary: $primary-palette,
+                accent: $accent-palette,
+                warn: $warn-palette
+        ),
+        typography: Roboto,
+        density: 0
+);
+
+// Theme anwenden
+@include mat.theme($theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
