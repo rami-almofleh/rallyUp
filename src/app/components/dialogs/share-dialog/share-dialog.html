@@ -1,13 +1,13 @@
 <h2 mat-dialog-title>{{ 'SHARE.TITLE' | translate }}</h2>
 <mat-dialog-content>
-  <p class="mb-0">{{ 'SHARE.COPY_SHARE_URL' | translate }}</p>
-  <div class="d-flex align-items-center gap-2 mb-5">
-    {{ window.location.href }}
+  <div class="d-flex align-items-center gap-2 mb-1">
+    <span class="text-truncate d-inline-block" style="max-width: 100%;">{{ this.data.shareUrl }}</span>
 
     <button mat-icon-button (click)="copyLink()" color="primary">
       <mat-icon>content_copy</mat-icon>
     </button>
   </div>
+  <p class="mb-5 text-muted small" [innerHTML]="'SHARE.SHARE_LINK_HINT' | translate"></p>
 
   <div>
     <p>{{ 'SHARE.DOWNLOAD_QRCODE' | translate }}</p>

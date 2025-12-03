@@ -1,18 +1,40 @@
 {
   "COMMON": {
-    "CLOSE": "Schließen"
+    "CLOSE": "Schließen",
+    "DOWNLOAD": "Herunterladen"
   },
   "HELP": {
-    "TITLE": "Hilfe zur App",
+    "TITLE": "App-Hilfe",
     "HOW_TO_USE": "Wie benutzt man diese App?",
-    "CREATE_LIST_DESC": "Erstellen Sie eine neue Liste mit einem Titel, fügen Sie Teilnehmer hinzu und legen Sie fest, was mitgebracht werden soll.",
-    "SHARE_LIST_DESC": "Teilen Sie Ihre Liste mit Freunden über den Teilen-Button und kopieren Sie den Link oder laden Sie den QR-Code herunter.",
-    "EDIT_LIST_DESC": "Als Ersteller können Sie die Liste jederzeit bearbeiten oder löschen.",
+    "CREATE_LIST_DESC": "Erstelle eine neue Liste mit einem Titel, füge Teilnehmer hinzu und gib an, was mitgebracht werden soll.",
+    "SHARE_LIST_DESC": "Teile deine Liste mit Freunden über den Teilen-Button und kopiere den Link oder lade den QR-Code herunter.",
+    "EDIT_LIST_DESC": "Als Ersteller kannst du die Liste jederzeit bearbeiten oder löschen.",
     "TIPS": "Tipps",
-    "SECURITY_TIP": "Bitte beachten Sie: Teilen Sie den Link nur über den Teilen-Button, sonst können andere Ihre Daten ändern!",
-    "PREVIEW_TIP": "Mit der Vorschau-Funktion können Sie sehen, wie Ihre Liste für andere aussieht."
+    "SECURITY_TIP": "Bitte beachte: Teile den Link nur über den Teilen-Button, sonst können andere deine Daten ändern!",
+    "PREVIEW_TIP": "Nutze die Vorschau-Funktion, um zu sehen, wie deine Liste für andere erscheint."
   },
   "NAVBAR": {
     "APP_TITLE": "Wer bringt was mit"
+  },
+  "SHARE": {
+    "TITLE": "Mit anderen teilen!",
+    "DOWNLOAD_QRCODE": "Du kannst diesen QR-Code herunterladen und mit anderen teilen. Wenn sie ihn scannen, werden sie direkt zu deiner Liste weitergeleitet",
+    "SHARE_LINK_HINT": "Hinweis: Geteilte Links erlauben nur das Ansehen und Bearbeiten der Gästeliste, \nnicht das Ändern des Titels, des Moderators oder des Fälligkeitsdatums."
+  },
+  "HOME": {
+    "EVENT_TITLE": "Veranstaltungstitel",
+    "EVENT_TITLE_PLACEHOLDER": "Gib deinen Veranstaltungstitel ein",
+    "EVENT_MODERATOR": "Veranstaltungsmoderator",
+    "EVENT_MODERATOR_PLACEHOLDER": "Gib deinen Veranstaltungsmoderator ein",
+    "EVENT_DUE_DATE": "Fälligkeitsdatum",
+    "GUESTS": "Eingeladene Personen",
+    "GUEST_NAME": "Name",
+    "GUEST_NAME_PLACEHOLDER": "Name der Person",
+    "GUEST_CONTRIBUTION": "Beitrag",
+    "GUEST_CONTRIBUTION_PLACEHOLDER": "Was sollen sie mitbringen?",
+    "ADD_GUEST": "Person hinzufügen",
+    "REMOVE_GUEST": "Person entfernen",
+    "NO_GUESTS": "Noch keine Personen eingeladen",
+    "YOU_HAVE_TIME_UNTIL": "Du hast bis zum {{dueDate}}, um deine Einträge zu bearbeiten und anzupassen."
   }
 }

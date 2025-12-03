@@ -16,6 +16,7 @@ import {
 } from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {Router} from "@angular/router";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-home',
@@ -33,13 +34,15 @@ import {Router} from "@angular/router";
     MatNativeDateModule,
     MatDatepicker,
     MatSuffix,
-    MatIconButton
+    MatIconButton,
+    DatePipe
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home implements OnInit {
   minDate: Date = new Date();
+  userRole: string = 'admin'; // Standardmäßig Admin-Rechte
   form: FormGroup = new FormGroup({
     title: new FormControl(null, [Validators.required]),
     moderator: new FormControl(null, [Validators.required]),
@@ -94,8 +97,16 @@ export class Home implements OnInit {
   }
 
   openShareDialog() {
+    // URL ohne Rolle für Sharing erstellen
+    const currentUrl = new URL(window.location.href);
+
+    // Rolle entfernen, damit geteilte Links für normale Benutzer sind
+    currentUrl.searchParams.delete('role');
+    const shareUrl = currentUrl.toString();
+
     this.dialog.open(ShareDialog, {
-      width: '500px'
+      width: '500px',
+      data: { shareUrl }
     });
   }
 
@@ -143,62 +154,85 @@ export class Home implements OnInit {
 
   // Aktualisiert die URL mit den kodierten Formulardaten
   private updateUrlWithFormData(encodedData: string): void {
-    // Aktualisieren der URL mit den kodierten Daten ohne Seiten-Neuladen
-    const url = this.router.createUrlTree([], {
-      queryParams: { data: encodedData },
-      queryParamsHandling: 'merge'
-    });
+    const url = new URL(window.location.href);
 
-    window.history.replaceState({}, '', this.router.serializeUrl(url));
+    // Daten in die URL einfügen
+    url.searchParams.set('data', encodedData);
+
+    // Für Admin-URLs immer die Rolle mit speichern
+    url.searchParams.set('role', 'admin');
+
+    // URL ohne Neuladen der Seite aktualisieren
+    window.history.pushState({}, '', url.toString());
   }
 
-  // Lädt Formulardaten aus URL-Parametern
   private loadFormDataFromUrl(): void {
-    const urlParams = new URLSearchParams(window.location.search);
-    const encodedData = urlParams.get('data');
+    const url = new URL(window.location.href);
+    const dataParam = url.searchParams.get('data');
+    const roleParam = url.searchParams.get('role');
+    // Setzen der Benutzerrolle basierend auf URL-Parameter
+    this.userRole = roleParam ? roleParam : (dataParam ? 'user' : 'admin'); // Wenn kein Parameter, dann Admin
 
-    if (encodedData) {
+    // Formular entsprechend der Rolle konfigurieren
+    this.configureFormByRole();
+
+    // Wenn Daten vorhanden sind, diese dekodieren und in das Formular laden
+    if (dataParam) {
       try {
-        // Dekodieren der Daten
-        const jsonString = atob(encodedData);
-        const formData = JSON.parse(jsonString);
+        const decodedData = this.decodeFormData(dataParam);
 
-        // Datum zurück in Date-Objekt umwandeln
-        if (formData.dueDate) {
-          formData.dueDate = new Date(formData.dueDate);
+        // Datum wieder in Date-Objekt umwandeln
+        if (decodedData.dueDate) {
+          decodedData.dueDate = new Date(decodedData.dueDate);
         }
 
-        // Formular mit den Daten füllen
-        this.fillFormWithData(formData);
-      } catch (error) {
-        console.error('Fehler beim Laden der Formulardaten:', error);
+        // Formular mit den dekodierten Daten füllen
+        this.form.patchValue({
+          title: decodedData.title,
+          moderator: decodedData.moderator,
+          dueDate: decodedData.dueDate
+        });
+
+        // Gästeliste leeren und mit den geladenen Daten füllen
+        this.guests.clear();
+        if (decodedData.guests && decodedData.guests.length > 0) {
+          decodedData.guests.forEach((guest: any) => {
+            this.guests.push(new FormGroup({
+              id: new FormControl(guest.id || this.generateUniqueId()),
+              name: new FormControl(guest.name, Validators.required),
+              contribution: new FormControl(guest.contribution)
+            }));
+          });
+        } else {
+          this.addGuest(); // Mindestens ein leeres Gästeformular hinzufügen
+        }
+      } catch (e) {
+        console.error('Fehler beim Dekodieren der Formulardaten:', e);
+        this.snackBar.open('Fehler beim Laden der Daten', 'Schließen', {
+          duration: 3000
+        });
       }
     }
   }
 
-  // Füllt das Formular mit den geladenen Daten
-  private fillFormWithData(data: any): void {
-    // Basisdaten setzen
-    this.form.patchValue({
-      title: data.title,
-      moderator: data.moderator,
-      dueDate: data.dueDate
-    });
+  // Dekodiert die Base64-kodierten Formulardaten
+  private decodeFormData(encodedData: string): any {
+    const jsonString = atob(encodedData);
+    return JSON.parse(jsonString);
+  }
 
-    // Gästeliste zurücksetzen und neu füllen
-    const guestsArray = this.form.get('guests') as FormArray;
-    guestsArray.clear();
-
-    if (data.guests && Array.isArray(data.guests)) {
-      data.guests.forEach((guest: { id: any; name: any; contribution: any; }) => {
-        guestsArray.push(
-            new FormGroup({
-              id: new FormControl(guest.id || this.generateUniqueId()),
-              name: new FormControl(guest.name, Validators.required),
-              contribution: new FormControl(guest.contribution)
-            })
-        );
-      });
+  // Konfiguriert das Formular basierend auf der Benutzerrolle
+  private configureFormByRole(): void {
+    if (this.userRole !== 'admin') {
+      // Für normale Benutzer: Titel, Moderator und Fälligkeitsdatum deaktivieren
+      this.form.get('title')?.disable();
+      this.form.get('moderator')?.disable();
+      this.form.get('dueDate')?.disable();
+    } else {
+      // Für Admins: Alles aktivieren
+      this.form.get('title')?.enable();
+      this.form.get('moderator')?.enable();
+      this.form.get('dueDate')?.enable();
     }
   }
 }

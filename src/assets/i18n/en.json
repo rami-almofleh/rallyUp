@@ -18,8 +18,8 @@
   },
   "SHARE": {
     "TITLE": "Share with others!",
-    "COPY_SHARE_URL": "You can share this URL with others!",
-    "DOWNLOAD_QRCODE": "Or download this QR code and share it with others. When they scan it, they will be directed to your list immediately"
+    "DOWNLOAD_QRCODE": "You can download this QR code and share it with others. When they scan it, they will be directed to your list immediately",
+    "SHARE_LINK_HINT": "Note: Shared links only allow viewing and editing the guest list, \nnot changing the title, moderator, or due date."
   },
   "HOME": {
     "EVENT_TITLE": "Event title",
@@ -34,6 +34,7 @@
     "GUEST_CONTRIBUTION_PLACEHOLDER": "What should they bring?",
     "ADD_GUEST": "Add person",
     "REMOVE_GUEST": "Remove person",
-    "NO_GUESTS": "No persons invited yet"
+    "NO_GUESTS": "No persons invited yet",
+    "YOU_HAVE_TIME_UNTIL": "You have until {{dueDate}} to edit and adjust your entries."
   }
 }

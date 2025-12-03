@@ -1,54 +1,62 @@
-<div class="d-flex justify-content-end gap-3 mb-4">
+@if (userRole === 'admin') {
+  <div class="d-flex justify-content-end gap-3 mb-4">
+    <!-- Löschen Button (nur für Admins) -->
+    <button mat-raised-button color="warn" (click)="markAsDeleted()">
+      <mat-icon>delete</mat-icon>
+      Löschen
+    </button>
 
-  <!-- Löschen Button -->
-  <button mat-raised-button color="warn" (click)="markAsDeleted()">
-    <mat-icon>delete</mat-icon>
-    Löschen
-  </button>
 
-  <!-- Teilen Button mit Menü -->
-  <button mat-raised-button (click)="openShareDialog()">
-    <mat-icon>share</mat-icon>
-    Teilen
-  </button>
+    <!-- Teilen Button mit Menü -->
+    <button mat-raised-button (click)="openShareDialog()">
+      <mat-icon>share</mat-icon>
+      Teilen
+    </button>
 
-  <!-- Preview Button -->
-  <button mat-raised-button color="primary" (click)="openPreview()">
-    <mat-icon>preview</mat-icon>
-    Preview
-  </button>
+    <!-- Preview Button -->
+    <button mat-raised-button color="primary" (click)="openPreview()">
+      <mat-icon>preview</mat-icon>
+      Preview
+    </button>
 
-  <!-- Speichern Button (neu) -->
-  <button mat-raised-button color="primary" (click)="saveForm()">
-    <mat-icon>save</mat-icon>
-    Speichern
-  </button>
-</div>
+    <!-- Speichern Button (nur für Admins) -->
+    <button mat-raised-button color="primary" (click)="saveForm()">
+      <mat-icon>save</mat-icon>
+      Speichern
+    </button>
+  </div>
+}
 
 <form [formGroup]="form">
-  <div>
-    <mat-form-field>
-      <mat-label>{{ 'HOME.EVENT_TITLE' | translate }}</mat-label>
-      <input matInput formControlName="title" [placeholder]="'HOME.EVENT_TITLE_PLACEHOLDER' | translate">
-    </mat-form-field>
-  </div>
+  @if (userRole === 'admin') {
+    <div>
+      <mat-form-field>
+        <mat-label>{{ 'HOME.EVENT_TITLE' | translate }}</mat-label>
+        <input matInput formControlName="title" [placeholder]="'HOME.EVENT_TITLE_PLACEHOLDER' | translate">
+      </mat-form-field>
+    </div>
 
-  <div>
-    <mat-form-field>
-      <mat-label>{{ 'HOME.EVENT_MODERATOR' | translate }}</mat-label>
-      <input matInput formControlName="moderator" [placeholder]="'HOME.EVENT_MODERATOR_PLACEHOLDER' | translate">
-    </mat-form-field>
-  </div>
+    <div>
+      <mat-form-field>
+        <mat-label>{{ 'HOME.EVENT_MODERATOR' | translate }}</mat-label>
+        <input matInput formControlName="moderator" [placeholder]="'HOME.EVENT_MODERATOR_PLACEHOLDER' | translate">
+      </mat-form-field>
+    </div>
 
-  <div>
-    <mat-form-field>
-      <mat-label>{{ 'HOME.EVENT_DUE_DATE' | translate }}</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="dueDate" [min]="minDate">
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
+    <div>
+      <mat-form-field>
+        <mat-label>{{ 'HOME.EVENT_DUE_DATE' | translate }}</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dueDate" [min]="minDate">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  } @else {
 
+    <h1>{{ 'HOME.EVENT_TITLE' | translate}}: {{ form.get('title')?.value }}</h1>
+    <h5>{{ 'HOME.EVENT_MODERATOR' | translate}}: {{ form.get('moderator')?.value }}</h5>
+    <p>{{ 'HOME.YOU_HAVE_TIME_UNTIL' | translate: {dueDate: form.get('dueDate')?.value | date} }}</p>
+  }
 
   <!-- Gästeliste Sektion -->
   <div class="guest-list-section mt-4">
@@ -64,7 +72,8 @@
 
           <mat-form-field class="flex-grow-1">
             <mat-label>{{ 'HOME.GUEST_CONTRIBUTION' | translate }}</mat-label>
-            <input matInput formControlName="contribution" [placeholder]="'HOME.GUEST_CONTRIBUTION_PLACEHOLDER' | translate">
+            <input matInput formControlName="contribution"
+                   [placeholder]="'HOME.GUEST_CONTRIBUTION_PLACEHOLDER' | translate">
           </mat-form-field>
 
           <button mat-icon-button color="warn" type="button" (click)="removeGuest(i)"
