@@ -15,7 +15,6 @@ import {
   MatDatepickerToggle
 } from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
-import {Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
 
 @Component({
@@ -51,8 +50,7 @@ export class Home implements OnInit {
 });
 
   constructor(private dialog: MatDialog,
-              private snackBar: MatSnackBar,
-              private router: Router) {}
+              private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.minDate = new Date();

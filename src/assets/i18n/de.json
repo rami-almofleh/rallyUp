@@ -35,6 +35,10 @@
     "ADD_GUEST": "Person hinzufügen",
     "REMOVE_GUEST": "Person entfernen",
     "NO_GUESTS": "Noch keine Personen eingeladen",
-    "YOU_HAVE_TIME_UNTIL": "Du hast bis zum {{dueDate}}, um deine Einträge zu bearbeiten und anzupassen."
+    "YOU_HAVE_TIME_UNTIL": "Du hast bis zum {{dueDate}}, um deine Einträge zu bearbeiten und anzupassen.",
+    "DELETE": "Löschen",
+    "SHARE": "Teilen",
+    "PREVIEW": "Vorschau",
+    "SAVE": "Speichern"
   }
 }

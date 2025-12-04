@@ -3,26 +3,26 @@
     <!-- Löschen Button (nur für Admins) -->
     <button mat-raised-button color="warn" (click)="markAsDeleted()">
       <mat-icon>delete</mat-icon>
-      Löschen
+      {{ 'HOME.DELETE' | translate }}
     </button>
 
 
     <!-- Teilen Button mit Menü -->
     <button mat-raised-button (click)="openShareDialog()">
       <mat-icon>share</mat-icon>
-      Teilen
+      {{ 'HOME.SHARE' | translate }}
     </button>
 
     <!-- Preview Button -->
     <button mat-raised-button color="primary" (click)="openPreview()">
       <mat-icon>preview</mat-icon>
-      Preview
+      {{ 'HOME.PREVIEW' | translate }}
     </button>
 
     <!-- Speichern Button (nur für Admins) -->
     <button mat-raised-button color="primary" (click)="saveForm()">
       <mat-icon>save</mat-icon>
-      Speichern
+      {{ 'HOME.SAVE' | translate }}
     </button>
   </div>
 }
