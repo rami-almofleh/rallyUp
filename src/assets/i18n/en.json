@@ -39,6 +39,8 @@
     "DELETE": "Delete",
     "SHARE": "Share",
     "PREVIEW": "Preview",
-    "SAVE": "Save"
+    "SAVE": "Save",
+    "SHARE_TOOLTIP": "Please save the form first, then click on share",
+    "CONTRIBUTION_MAX_LENGTH_ERROR": "The contribution is too long. Maximum 500 characters allowed."
   }
 }

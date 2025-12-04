@@ -1,31 +1,40 @@
-@if (userRole === 'admin') {
-  <div class="d-flex justify-content-end gap-3 mb-4">
+<div class="d-flex justify-content-end gap-3 mb-4">
+  @if (userRole === 'admin') {
     <!-- Löschen Button (nur für Admins) -->
-    <button mat-raised-button color="warn" (click)="markAsDeleted()">
-      <mat-icon>delete</mat-icon>
-      {{ 'HOME.DELETE' | translate }}
-    </button>
-
+    @if (hasParams) {
+      <button mat-raised-button color="warn" (click)="markAsDeleted()">
+        <mat-icon>delete</mat-icon>
+        {{ 'HOME.DELETE' | translate }}
+      </button>
+    }
 
     <!-- Teilen Button mit Menü -->
-    <button mat-raised-button (click)="openShareDialog()">
-      <mat-icon>share</mat-icon>
-      {{ 'HOME.SHARE' | translate }}
-    </button>
+    <span [matTooltip]="!hasParams ? ('HOME.SHARE_TOOLTIP' | translate) : ''">
+      <button mat-raised-button
+              [disabled]="this.form.invalid || !hasParams"
+              (click)="openShareDialog()">
+        <mat-icon>share</mat-icon>
+        {{ 'HOME.SHARE' | translate }}
+      </button>
+    </span>
 
     <!-- Preview Button -->
-    <button mat-raised-button color="primary" (click)="openPreview()">
+    <button mat-raised-button color="primary"
+            [disabled]="this.form.invalid"
+            (click)="openPreview()">
       <mat-icon>preview</mat-icon>
       {{ 'HOME.PREVIEW' | translate }}
     </button>
+  }
 
-    <!-- Speichern Button (nur für Admins) -->
-    <button mat-raised-button color="primary" (click)="saveForm()">
-      <mat-icon>save</mat-icon>
-      {{ 'HOME.SAVE' | translate }}
-    </button>
-  </div>
-}
+  <!-- Speichern Button (nur für Admins) -->
+  <button mat-raised-button color="primary"
+          [disabled]="this.form.invalid"
+          (click)="saveForm()">
+    <mat-icon>save</mat-icon>
+    {{ 'HOME.SAVE' | translate }}
+  </button>
+</div>
 
 <form [formGroup]="form">
   @if (userRole === 'admin') {
@@ -53,8 +62,8 @@
     </div>
   } @else {
 
-    <h1>{{ 'HOME.EVENT_TITLE' | translate}}: {{ form.get('title')?.value }}</h1>
-    <h5>{{ 'HOME.EVENT_MODERATOR' | translate}}: {{ form.get('moderator')?.value }}</h5>
+    <h1>{{ 'HOME.EVENT_TITLE' | translate }}: {{ form.get('title')?.value }}</h1>
+    <h5>{{ 'HOME.EVENT_MODERATOR' | translate }}: {{ form.get('moderator')?.value }}</h5>
     <p>{{ 'HOME.YOU_HAVE_TIME_UNTIL' | translate: {dueDate: form.get('dueDate')?.value | date} }}</p>
   }
 
@@ -64,7 +73,7 @@
 
     <div formArrayName="guests">
       @for (guestControl of guests.controls; track guestControl; let i = $index) {
-        <div [formGroupName]="i" class="guest-row d-flex gap-3 align-items-center mb-1">
+        <div [formGroupName]="i" class="guest-row d-flex gap-3 align-items-start mb-1">
           <mat-form-field class="flex-grow-1">
             <mat-label>{{ 'HOME.GUEST_NAME' | translate }}</mat-label>
             <input matInput formControlName="name" [placeholder]="'HOME.GUEST_NAME_PLACEHOLDER' | translate">
@@ -72,14 +81,19 @@
 
           <mat-form-field class="flex-grow-1">
             <mat-label>{{ 'HOME.GUEST_CONTRIBUTION' | translate }}</mat-label>
-            <input matInput formControlName="contribution"
-                   [placeholder]="'HOME.GUEST_CONTRIBUTION_PLACEHOLDER' | translate">
+            <textarea matInput rows="2" formControlName="contribution"
+                      [placeholder]="'HOME.GUEST_CONTRIBUTION_PLACEHOLDER' | translate"></textarea>
+            @if (guestControl.get('contribution')?.hasError('maxlength')) {
+              <mat-error>{{ 'HOME.CONTRIBUTION_MAX_LENGTH_ERROR' | translate }}</mat-error>
+            }
           </mat-form-field>
 
-          <button mat-icon-button color="warn" type="button" (click)="removeGuest(i)"
-                  [attr.aria-label]="'HOME.REMOVE_GUEST' | translate">
-            <mat-icon>delete</mat-icon>
-          </button>
+          @if (userRole === 'admin') {
+            <button mat-icon-button color="warn" type="button" (click)="removeGuest(i)"
+                    [attr.aria-label]="'HOME.REMOVE_GUEST' | translate">
+              <mat-icon>delete</mat-icon>
+            </button>
+          }
         </div>
       } @empty {
         <div class="text-center text-muted py-3">

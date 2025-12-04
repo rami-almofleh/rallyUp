@@ -4,7 +4,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ShareDialog} from "../../components/dialogs/share-dialog/share-dialog";
 import {MatDialog} from "@angular/material/dialog";
-import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
+import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {TranslatePipe} from "@ngx-translate/core";
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -16,6 +16,7 @@ import {
 } from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {DatePipe} from "@angular/common";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-home',
@@ -34,7 +35,9 @@ import {DatePipe} from "@angular/common";
     MatDatepicker,
     MatSuffix,
     MatIconButton,
-    DatePipe
+    DatePipe,
+    MatTooltip,
+    MatError
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
@@ -42,6 +45,7 @@ import {DatePipe} from "@angular/common";
 export class Home implements OnInit {
   minDate: Date = new Date();
   userRole: string = 'admin'; // Standardmäßig Admin-Rechte
+  hasParams = false;
   form: FormGroup = new FormGroup({
     title: new FormControl(null, [Validators.required]),
     moderator: new FormControl(null, [Validators.required]),
@@ -71,7 +75,7 @@ export class Home implements OnInit {
         new FormGroup({
           id: new FormControl(this.generateUniqueId()),
           name: new FormControl('', Validators.required),
-          contribution: new FormControl('')
+          contribution: new FormControl('', Validators.maxLength(500))
         })
     );
   }
@@ -81,9 +85,22 @@ export class Home implements OnInit {
   }
 
   openPreview(): void {
-    // Link in neuem Tab öffnen
-    const shareUrl = window.location.href;
-    window.open(shareUrl, '_blank');
+    if (this.form.invalid) return;
+
+    // Formulardaten holen (wie in saveForm())
+    const formData = this.form.value;
+
+    // Daten komprimieren und kodieren mit derselben Methode wie bei saveForm()
+    const encodedData = this.encodeFormData(formData);
+
+    // Basis-URL ohne Parameter
+    const baseUrl = window.location.origin + window.location.pathname;
+
+    // URL mit kodierten Daten für Preview erzeugen
+    const previewUrl = `${baseUrl}?data=${encodedData}`;
+
+    // In neuem Tab öffnen
+    window.open(previewUrl, '_blank');
   }
 
   markAsDeleted(): void {
@@ -95,17 +112,21 @@ export class Home implements OnInit {
   }
 
   openShareDialog() {
-    // URL ohne Rolle für Sharing erstellen
-    const currentUrl = new URL(window.location.href);
-
-    // Rolle entfernen, damit geteilte Links für normale Benutzer sind
-    currentUrl.searchParams.delete('role');
-    const shareUrl = currentUrl.toString();
+    const shareUrl = this.getShareUrl();
 
     this.dialog.open(ShareDialog, {
       width: '500px',
       data: { shareUrl }
     });
+  }
+
+  getShareUrl() {
+    // URL ohne Rolle für Sharing erstellen
+    const currentUrl = new URL(window.location.href);
+
+    // Rolle entfernen, damit geteilte Links für normale Benutzer sind
+    currentUrl.searchParams.delete('role');
+    return currentUrl.toString();
   }
 
   // Neue Methode zum Speichern des Formulars
@@ -198,12 +219,14 @@ export class Home implements OnInit {
             this.guests.push(new FormGroup({
               id: new FormControl(guest.id || this.generateUniqueId()),
               name: new FormControl(guest.name, Validators.required),
-              contribution: new FormControl(guest.contribution)
+              contribution: new FormControl(guest.contribution, Validators.maxLength(500))
             }));
           });
         } else {
           this.addGuest(); // Mindestens ein leeres Gästeformular hinzufügen
         }
+
+        this.hasParams = true;
       } catch (e) {
         console.error('Fehler beim Dekodieren der Formulardaten:', e);
         this.snackBar.open('Fehler beim Laden der Daten', 'Schließen', {

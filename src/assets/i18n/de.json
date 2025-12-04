@@ -39,6 +39,8 @@
     "DELETE": "Löschen",
     "SHARE": "Teilen",
     "PREVIEW": "Vorschau",
-    "SAVE": "Speichern"
+    "SAVE": "Speichern",
+    "SHARE_TOOLTIP": "Bitte speichern Sie zuerst das Formular und klicken Sie dann auf Teilen",
+    "CONTRIBUTION_MAX_LENGTH_ERROR": "Der Beitrag ist zu lang. Maximal 500 Zeichen erlaubt."
   }
 }
